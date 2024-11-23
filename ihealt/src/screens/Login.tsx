@@ -1,10 +1,13 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, StyleSheet, Alert } from "react-native";
+import { View, Text, TextInput, StyleSheet, Alert, TouchableOpacity } from "react-native";
 import { Button, RadioButton } from "react-native-paper";
+import { useNavigation } from "@react-navigation/native";
 import api from "../Api";
 import { colors } from "../styles/colors";
 
+
 export default function LoginUser() {
+  const navigation = useNavigation();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -70,10 +73,17 @@ export default function LoginUser() {
         keyboardType="phone-pad"
         onChangeText={(text) => setFormData({ ...formData, phone: text })}
       />
-
       <Button onPress={handleLogin}>
         <Text style={{ color: colors.colorOnPrimary }}>Login</Text>
       </Button>
+      <View style={styles.registerContainer}>
+        <Text>Não possui uma conta? </Text>
+        <TouchableOpacity onPress={() => navigation.navigate("Register")}>
+          <Text style={{ color: "black", textDecorationLine: "underline" }}>
+            Registrar
+          </Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -81,9 +91,9 @@ export default function LoginUser() {
 const styles = StyleSheet.create({
   container: { flex: 1, padding: 20, display: "flex", justifyContent: "center", margin: "25%", marginTop: "20%" },
   textContainer: { display: "flex", justifyContent: "center", alignItems: "center", marginBottom: 20 },
-  title: { fontSize: 20, fontWeight: "bold", marginBottom: 10 },
-  subTitle: { fontSize: 15, fontWeight: "bold", marginBottom: 10 },
-  paragraph: { fontSize: 10, marginBottom: 10 },
+  title: { fontSize: 25, fontWeight: "bold", marginBottom: 10 },
+  subTitle: { fontSize: 20, fontWeight: "bold", marginBottom: 10 },
+  paragraph: { fontSize: 14, marginBottom: 10 },
   input: { borderWidth: 1, borderColor: "#ccc", padding: 10, marginBottom: 10, borderRadius: 8 },
   radioContainer: {
     display: "flex",
@@ -115,6 +125,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
     gap: 30,
+  },
+  registerContainer: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 20,
   },
 });
 

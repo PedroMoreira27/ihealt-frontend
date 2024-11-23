@@ -30,7 +30,43 @@ export default function RegisterUser() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 20 },
-  title: { fontSize: 20, fontWeight: "bold", marginBottom: 10 },
-  input: { borderWidth: 1, borderColor: "#ccc", padding: 10, marginBottom: 10 },
+container: { flex: 1, padding: 20, display: "flex", justifyContent: "center", margin: "25%", marginTop: "20%" },
+textContainer: { display: "flex", justifyContent: "center", alignItems: "center", marginBottom: 20 },
+title: { fontSize: 25, fontWeight: "bold", marginBottom: 10 },
+subTitle: { fontSize: 20, fontWeight: "bold", marginBottom: 10 },
+paragraph: { fontSize: 14, marginBottom: 10 },
+input: { borderWidth: 1, borderColor: "#ccc", padding: 10, marginBottom: 10, borderRadius: 8 },
+radioContainer: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    marginBottom: 20,
+    padding: 10,
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 5,
+},
+radioLabel: {
+    marginRight: 10,
+    fontSize: 16,
+    fontWeight: "bold",
+},
+radioButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginRight: 20,
+},
+radioText: {
+    fontSize: 16,
+    marginRight: 5,
+},
+radioGroup: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
+    gap: 30,
+},
 });
+  
+  
