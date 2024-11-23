@@ -1,6 +1,7 @@
 module.exports = {
-    presets: ['module:metro-react-native-babel-preset'],
-    plugins: ['react-native-reanimated/plugin'],
+    presets: [ '@react-native/babel-preset'],
+    // biome-ignore lint/suspicious/noDuplicateObjectKeys: <explanation>
+    plugins: ['react-native-reanimated/plugin',],
     plugins: [
       'module:react-native-dotenv',
       [

@@ -1,10 +1,11 @@
 import { StyleSheet } from "react-native";
+import { colors } from "./colors";
 
 export const globalStyles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: "#fff",
+    backgroundColor: colors.surface,
   },
   title: {
     fontSize: 20,
@@ -19,7 +20,7 @@ export const globalStyles = StyleSheet.create({
     borderRadius: 5,
   },
   button: {
-    backgroundColor: "#007BFF",
+    backgroundColor: colors.primary,
     padding: 10,
     alignItems: "center",
     borderRadius: 5,
