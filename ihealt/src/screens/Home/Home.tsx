@@ -8,12 +8,11 @@ import Icon from "react-native-vector-icons/Ionicons";
 import { black } from "react-native-paper/lib/typescript/styles/themes/v2/colors";
 
 const Container = styled.View`
-  padding: 24px 16px;
+  padding: 24px;
   display: flex;
   flex: 1;
-  background-color: "#00000000";
-  margin: 20px
-  
+  background-color: ${colors.surface};
+  margin: 20px;
 `;
 const SafeAreaView = styled.SafeAreaView`
   flex: 1;

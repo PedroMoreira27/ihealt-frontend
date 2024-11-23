@@ -1,124 +1,132 @@
-import styled from "styled-components/native";
-
-import { colors } from "@/styles/colors";
-import { FlatList, StatusBar } from "react-native";
+import React, { useEffect, useState } from "react";
+import {
+	View,
+	Text,
+	FlatList,
+	StyleSheet,
+	TouchableOpacity,
+	ActivityIndicator,
+} from "react-native";
+import api from "../Api";
 import { ClinicCard } from "@/components/clinic-card";
-import { SearchInput } from "@/components/search-input";
+import { colors } from "@/styles/colors";
 
-const Container = styled.View`
-  padding: 24px 16px;
-  display: flex;
-  flex: 1;
-  background-color: "#00000000";
-`;
-const SafeAreaView = styled.SafeAreaView`
-  flex: 1;
-  background-color: ${colors.surface};
-`;
+type Clinic = {
+	_id: string;
+	name: string;
+};
 
-const Text = styled.Text`
-  font-size: 28px;
-  font-weight: 700;
-`;
+const clinicsData = [
+	{
+		id: "0",
+		name: "Clinica 1",
+		services: [
+			{
+				name: "Exame médico geral",
+			},
+		],
+	},
+	{
+		id: "1",
+		name: "Clinica 2",
+		services: [
+			{
+				name: "Exame médico geral",
+			},
+		],
+	},
+	{
+		id: "2",
+		name: "Clinica 3",
+		services: [
+			{
+				name: "Exame médico geral",
+			},
+		],
+	},
+	{
+		id: "3",
+		name: "Clinica 4",
+		services: [
+			{
+				name: "Exame médico geral",
+			},
+		],
+	},
+	{
+		id: "4",
+		name: "Clinica 5",
+		services: [
+			{
+				name: "Exame médico geral",
+			},
+		],
+	},
+];
 
-const CategoryWrapper = styled.View`
-  margin: 12px 0px;
-	
-`;
+export default function ClinicList() {
+	// const [Clinics, setClinics] = useState<Clinic[]>([]);
+	// const [loading, setLoading] = useState(true);
+	// const [error, setError] = useState(false);
 
-const Separator = styled.View`
-  width: 8px;
-  height: 24px;
-  background-color: ${colors.surface};
-`;
+	// useEffect(() => {
+	// 	api
+	// 		.get("/Clinics")
+	// 		.then((response) => {
+	// 			if (response.data) {
+	// 				setClinics(response.data);
+	// 			} else {
+	// 				setError(true);
+	// 			}
+	// 		})
+	// 		.catch((error) => {
+	// 			console.error("Error fetching Clinics:", error);
+	// 			setError(true);
+	// 		})
+	// 		.finally(() => setLoading(false));
+	// }, []);
 
-const ContainerSearch = styled.View`
-	height: 100px;
-	width: 100%;
-	background-color: ${colors.surface};
-	align-items: center;
-	justify-content: center;
-	padding: 0px 16px;
-`;
+	// if (loading) {
+	// 	return (
+	// 		<View style={styles.loadingContainer}>
+	// 			<ActivityIndicator size="large" color="#0000ff" />
+	// 			<Text>Loading Clinics...</Text>
+	// 		</View>
+	// 	);
+	// }
 
-export default function Home() {
-	const clinicsData = [
-		{
-			id: 0,
-			name: "Clinica 1",
-			address: "Rua 1, 123",
-			phone: "(11) 1234-5678",
-			services: [
-				{
-					name: "Exame médico geral",
-				},
-			],
-		},
-		{
-			id: 1,
-			name: "Clinica 2",
-			address: "Rua 2, 123",
-			phone: "(11) 1234-5678",
-			services: [
-				{
-					name: "Odontologia",
-				},
-			],
-		},
-		{
-			id: 2,
-			name: "Clinica 3",
-			address: "Rua 3, 123",
-			phone: "(11) 1234-5678",
-			services: [
-				{
-					name: "Fisioterapia",
-				},
-			],
-		},
-		{
-			id: 3,
-			name: "Clinica 4",
-			address: "Rua 4, 123",
-			phone: "(11) 1234-5678",
-			services: [
-				{
-					name: "Psicologia",
-				},
-			],
-		},
-		{
-			id: 4,
-			name: "Clinica 5",
-			address: "Rua 5, 123",
-			phone: "(11) 1234-5678",
-			services: [
-				{
-					name: "Cardiologia",
-				},
-			],
-		},
-	];
-  
+	// if (error || Clinics.length === 0) {
+	// 	return (
+	// 		<View style={styles.errorContainer}>
+	// 			<Text style={styles.errorText}>
+	// 				No Clinics available or an error occurred.
+	// 			</Text>
+	// 		</View>
+	// 	);
+	// }
+
 	return (
-		<SafeAreaView>
-			<Container>
-				<Text>Encontre os melhores serviços de saúde perto de você</Text>
-				<ContainerSearch>
-					<SearchInput placeholder="Procure serviços próximos..." />
-				</ContainerSearch>
-				<SafeAreaView>
-					<CategoryWrapper>
-						<FlatList
-							data={clinicsData}
-							renderItem={({ item }) => <ClinicCard name={item.name} />}
-							ItemSeparatorComponent={Separator}
-							showsVerticalScrollIndicator={false}
-						/>
-					</CategoryWrapper>
-				</SafeAreaView>
-			</Container>
-			<StatusBar backgroundColor={colors.surface} />
-		</SafeAreaView>
+		<View style={styles.container}>
+			<Text style={styles.title}>Clinics</Text>
+			<FlatList
+				data={clinicsData}
+				keyExtractor={(item) => item.id}
+				renderItem={({ item }) => <ClinicCard name={item.name} />}
+			/>
+		</View>
 	);
 }
+
+const styles = StyleSheet.create({
+	container: { flex: 1, padding: 20, backgroundColor: colors.surface },
+	title: { fontSize: 20, fontWeight: "bold", marginBottom: 10 },
+	item: { padding: 10, borderBottomWidth: 1, borderBottomColor: "#ccc" },
+	loadingContainer: { flex: 1, justifyContent: "center", alignItems: "center" },
+	errorContainer: {
+		flex: 1,
+		justifyContent: "center",
+		alignItems: "center",
+		padding: 20,
+	},
+	errorText: { fontSize: 16, color: "red", textAlign: "center" },
+});
