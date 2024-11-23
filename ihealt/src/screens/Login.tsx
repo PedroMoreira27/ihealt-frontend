@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, Button, StyleSheet, Alert } from "react-native";
-import { Paragraph, RadioButton } from "react-native-paper";
+import { View, Text, TextInput, StyleSheet, Alert } from "react-native";
+import { Button, RadioButton } from "react-native-paper";
 import api from "../Api";
 import { colors } from "../styles/colors";
 
