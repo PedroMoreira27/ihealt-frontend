@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, Button, StyleSheet, Alert } from "react-native";
-import { RadioButton } from "react-native-paper";
+import { Paragraph, RadioButton } from "react-native-paper";
 import api from "../Api";
 
 export default function LoginUser() {
@@ -26,8 +26,11 @@ export default function LoginUser() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Login</Text>
-
+      <View style={styles.textContainer}>
+        <Text style={styles.title}>Login</Text>
+        <Text style={styles.subTitle}>Entre em sua conta</Text>
+        <Text style={styles.paragraph}>Para utilizar de nossos serviços você precisa estar logado</Text>
+      </View>
       <TextInput
         placeholder="Email"
         style={styles.input}
@@ -36,11 +39,11 @@ export default function LoginUser() {
       />
       
       <View style={styles.radioContainer}>
-        <Text style={styles.radioLabel}>Type:</Text>
         <RadioButton.Group
           onValueChange={(value) => setFormType(value)}
           value={formData.type}
         >
+        <View style={styles.radioGroup}>  
           <View style={styles.radioButton}>
             <Text style={styles.radioText}>Patient</Text>
             <RadioButton value="patient" />
@@ -49,6 +52,7 @@ export default function LoginUser() {
             <Text style={styles.radioText}>Doctor</Text>
             <RadioButton value="doctor" />
           </View>
+        </View>
         </RadioButton.Group>
       </View>
 
@@ -72,12 +76,16 @@ export default function LoginUser() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 20 },
+  container: { flex: 1, padding: 20, display: "flex", justifyContent: "center", margin: "25%", marginTop: "20%" },
+  textContainer: { display: "flex", justifyContent: "center", alignItems: "center", marginBottom: 20 },
   title: { fontSize: 20, fontWeight: "bold", marginBottom: 10 },
-  input: { borderWidth: 1, borderColor: "#ccc", padding: 10, marginBottom: 10 },
+  subTitle: { fontSize: 15, fontWeight: "bold", marginBottom: 10 },
+  paragraph: { fontSize: 10, marginBottom: 10 },
+  input: { borderWidth: 1, borderColor: "#ccc", padding: 10, marginBottom: 10, borderRadius: 8 },
   radioContainer: {
+    display: "flex",
     flexDirection: "row",
-    alignItems: "center",
+    justifyContent: "center",
     marginBottom: 20,
     padding: 10,
     borderWidth: 1,
@@ -97,6 +105,13 @@ const styles = StyleSheet.create({
   radioText: {
     fontSize: 16,
     marginRight: 5,
+  },
+  radioGroup: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
+    gap: 30,
   },
 });
 
