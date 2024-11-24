@@ -1,19 +1,34 @@
 import styled from "styled-components/native";
-
+import React, { useEffect, useState } from "react";
 import { colors } from "@/styles/colors";
-import { FlatList, StatusBar, ScrollView } from "react-native";
+import { FlatList, StatusBar, ScrollView, View, ActivityIndicator, StyleSheet } from "react-native";
 import { ClinicCard } from "@/components/clinic-card";
 import { SearchInput } from "@/components/search-input";
 import Icon from "react-native-vector-icons/Ionicons";
-import { black } from "react-native-paper/lib/typescript/styles/themes/v2/colors";
+import api from "../../Api";
+
+interface IAddress {
+  address: string;
+  number: string;
+  district: string;
+  city: string;
+  uf: string;
+  code: string;
+}
+
+interface IClinicProps {
+  id: number;
+  name: string;
+  address: IAddress;
+  phone: string;
+}
 
 const Container = styled.View`
   padding: 24px;
-  display: flex;
   flex: 1;
   background-color: ${colors.surface};
-  margin: 20px;
 `;
+
 const SafeAreaView = styled.SafeAreaView`
   flex: 1;
   background-color: ${colors.surface};
@@ -35,120 +50,104 @@ const Separator = styled.View`
 `;
 
 const ContainerSearch = styled.View`
-	height: 100px;
-	width: 100%;
-	background-color: ${colors.surface};
-	align-items: center;
-	justify-content: center;
-	padding: 0px 16px;
+  height: 100px;
+  width: 100%;
+  background-color: ${colors.surface};
+  align-items: center;
+  justify-content: center;
+  padding: 0 16px;
 `;
 
 export default function Home() {
-	const clinicsData = [
-		{
-			id: 0,
-			name: "Clinica 1",
-			address: "Rua 1, 123",
-			phone: "(11) 1234-5678",
-			services: [
-				{
-					name: "Exame médico geral",
-				},
-			],
-		},
-		{
-			id: 1,
-			name: "Clinica 2",
-			address: "Rua 2, 123",
-			phone: "(11) 1234-5678",
-			services: [
-				{
-					name: "Odontologia",
-				},
-			],
-		},
-		{
-			id: 2,
-			name: "Clinica 3",
-			address: "Rua 3, 123",
-			phone: "(11) 1234-5678",
-			services: [
-				{
-					name: "Fisioterapia",
-				},
-			],
-		},
-		{
-			id: 3,
-			name: "Clinica 4",
-			address: "Rua 4, 123",
-			phone: "(11) 1234-5678",
-			services: [
-				{
-					name: "Psicologia",
-				},
-			],
-		},
-		{
-			id: 4,
-			name: "Clinica 5",
-			address: "Rua 5, 123",
-			phone: "(11) 1234-5678",
-			services: [
-				{
-					name: "Cardiologia",
-				},
-			],
-		},
-	];
+  const [clinicsData, setClinics] = useState<IClinicProps[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
-	return (
-		<SafeAreaView>
-			<Container>
-				<ScrollView>
-					<CategoryWrapper>
-					<Text>Encontre os melhores serviços de saúde perto de você</Text>
-					<ContainerSearch>
-						<SearchInput placeholder="Procure serviços próximos..." />
-					</ContainerSearch>
-						<Text style={{ fontWeight: "bold", fontSize: "20px", marginTop: "20px", marginBottom: "20px" }}> 
-						<Icon name={"medkit"} size={24} color={"#000"} /> Clinicas
-						</Text>
-						<FlatList
-							horizontal
-							data={clinicsData}
-							renderItem={({ item }) => (
-							<ClinicCard
-								name={item.name}
-								address={item.address}
-								phone={item.phone}
-								services={item.services}
-							/>
-							)}
-							ItemSeparatorComponent={Separator}
-							showsVerticalScrollIndicator={false}
-						/>
-						<Text style={{ fontWeight: "bold", fontSize: "20px", marginTop: "20px", marginBottom: "20px" }}> 
-						<Icon name={"business-outline"} size={24} color={"#000"} /> Hospitais
-						</Text>
-						<FlatList 
-							horizontal
-							data={clinicsData}
-							renderItem={({ item }) => (
-							<ClinicCard
-								name={item.name}
-								address={item.address}
-								phone={item.phone}
-								services={item.services}
-							/>
-							)}
-							ItemSeparatorComponent={Separator}
-							showsVerticalScrollIndicator={false}
-						/>
-					</CategoryWrapper>
-				</ScrollView>
-			</Container>
-			<StatusBar backgroundColor={colors.surface} />
-		</SafeAreaView>
-	);
+  useEffect(() => {
+	api.get("/clinics")
+	.then((response) => {
+	  console.log(response.data);
+	  if (response.data) {
+		const sanitizedData = response.data.map((clinic) => ({
+		  id: clinic.id || Math.random(),
+		  name: clinic.name || "Nome não disponível",
+		  address: clinic.address || [],
+		  phone: clinic.phone || "Telefone não disponível",
+		}));
+		setClinics(sanitizedData);
+	  } else {
+		setError(true);
+	  }
+	})
+	.catch((error) => {
+	  console.error("Erro ao buscar clínicas:", error);
+	  setError(true);
+	})
+	.finally(() => setLoading(false));
+  
+  }, []);
+
+  if (loading) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#0000ff" />
+        <Text>Loading Clinics...</Text>
+      </View>
+    );
+  }
+
+  if (error || clinicsData.length === 0) {
+    return (
+      <View style={styles.errorContainer}>
+        <Text style={styles.errorText}>No Clinics available or an error occurred.</Text>
+      </View>
+    );
+  }
+
+  const renderClinic = ({ item }: { item: IClinicProps }) => (
+    <ClinicCard
+      name={item.name}
+      address={item.address.address}
+	  number={item.address.number}
+      city={item.address.city}
+      uf={item.address.uf}
+      district={item.address.district}
+      code={item.address.code}
+      phone={item.phone}
+    />
+  );
+
+  return (
+    <SafeAreaView>
+      <Container>
+        <ScrollView>
+          <CategoryWrapper>
+            <Text>Encontre os melhores serviços de saúde perto de você</Text>
+            <ContainerSearch>
+              <SearchInput placeholder="Procure serviços próximos..." />
+            </ContainerSearch>
+            <Text style={styles.sectionTitle}>
+              <Icon name="medkit" size={24} color="#000" /> Clínicas
+            </Text>
+            <FlatList
+              horizontal
+              data={clinicsData}
+              renderItem={renderClinic}
+              keyExtractor={(item) => item.id.toString()}
+              ItemSeparatorComponent={() => <Separator />}
+              showsHorizontalScrollIndicator={false}
+            />
+          </CategoryWrapper>
+        </ScrollView>
+      </Container>
+      <StatusBar backgroundColor={colors.surface} />
+    </SafeAreaView>
+  );
 }
+
+const styles = StyleSheet.create({
+  loadingContainer: { flex: 1, justifyContent: "center", alignItems: "center" },
+  errorContainer: { flex: 1, justifyContent: "center", alignItems: "center", padding: 20 },
+  errorText: { fontSize: 16, color: "red", textAlign: "center" },
+  sectionTitle: { fontWeight: "bold", fontSize: 20, marginTop: 20, marginBottom: 20 },
+});

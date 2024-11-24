@@ -1,44 +1,49 @@
 import { colors } from "@/styles/colors";
 import styled from "styled-components/native";
 
-interface IClinicProps {
-	name: string;
+interface IAddress {
   address: string;
+  number: string;
+  distric: string;
+  city: string;
+  uf: string;
+  code: string;
+}
+
+interface IClinicProps {
+  name: string;
+  address: IAddress[];
   phone: string;
-  services: {name: string}[];
 }
 
 export const Card = styled.View`
   width: 200px;
-  height: 126px;
+  height: auto;
   background-color: ${colors.surface};
   border-width: 1px;
-  border-color: ${colors.outline} ;
+  border-color: ${colors.outline};
   border-radius: 12px;
   padding: 12px;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: flex-start;
+  align-items: flex-start;
   gap: 8px;
 `;
 
-export const CardHeader = styled.View`
-  
-`;
-
 export const Text = styled.Text`
-  
+  font-size: 14px;
 `;
 
-export const ClinicCard = ({ name, address, phone, services }: IClinicProps) => {
-	return (
+export const ClinicCard = ({ name, address, phone }: IClinicProps) => {
+  return (
     <Card>
-			<Text style={{ fontWeight: "bold" }}>{name}</Text>
-			<Text style={{ fontWeight: "bold" }}>{address}</Text>
-			<Text style={{ fontWeight: "bold" }}>{phone}</Text>
-      {services.map((service, index) => (
-        <Text style={{ fontWeight: "bold" }} key={index}>{service.name}</Text>
+      <Text style={{ fontWeight: "bold" }}>{name}</Text>
+      <Text style={{ fontWeight: "bold" }}>{phone}</Text>
+      {address.map((service, index) => (
+        <Text key={index}>
+          {service.address}, {service.number} - {service.distric}, {service.city}/{service.uf} - CEP: {service.code}
+        </Text>
       ))}
-		</Card>
-	);
+    </Card>
+  );
 };
