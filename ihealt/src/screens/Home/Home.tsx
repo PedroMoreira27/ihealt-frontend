@@ -17,9 +17,9 @@ interface IAddress {
 }
 
 interface IClinicProps {
-  id: number;
+  id: string | number;
   name: string;
-  address: IAddress;
+  address: IAddress[] | IAddress;
   phone: string;
 }
 
@@ -64,27 +64,26 @@ export default function Home() {
   const [error, setError] = useState(false);
 
   useEffect(() => {
-	api.get("/clinics")
-	.then((response) => {
-	  console.log(response.data);
-	  if (response.data) {
-		const sanitizedData = response.data.map((clinic) => ({
-		  id: clinic.id || Math.random(),
-		  name: clinic.name || "Nome não disponível",
-		  address: clinic.address || [],
-		  phone: clinic.phone || "Telefone não disponível",
-		}));
-		setClinics(sanitizedData);
-	  } else {
-		setError(true);
-	  }
-	})
-	.catch((error) => {
-	  console.error("Erro ao buscar clínicas:", error);
-	  setError(true);
-	})
-	.finally(() => setLoading(false));
-  
+    api.get("/clinics")
+      .then((response) => {
+        console.log(response.data);
+        if (response.data) {
+          const sanitizedData = response.data.map((clinic) => ({
+            id: clinic.id || Math.random(),
+            name: clinic.name || "Nome não disponível",
+            address: clinic.address || [],
+            phone: clinic.phone || "Telefone não disponível",
+          }));
+          setClinics(sanitizedData);
+        } else {
+          setError(true);
+        }
+      })
+      .catch((error) => {
+        console.error("Erro ao buscar clínicas:", error);
+        setError(true);
+      })
+      .finally(() => setLoading(false));
   }, []);
 
   if (loading) {
@@ -104,18 +103,17 @@ export default function Home() {
     );
   }
 
-  const renderClinic = ({ item }: { item: IClinicProps }) => (
-    <ClinicCard
-      name={item.name}
-      address={item.address.address}
-	  number={item.address.number}
-      city={item.address.city}
-      uf={item.address.uf}
-      district={item.address.district}
-      code={item.address.code}
-      phone={item.phone}
-    />
-  );
+  const renderClinic = ({ item }: { item: IClinicProps }) => {
+    const clinicAddress = Array.isArray(item.address) ? item.address[0] : item.address;
+
+    return (
+      <ClinicCard
+        name={item.name}
+        address={clinicAddress}
+        phone={item.phone}
+      />
+    );
+  };
 
   return (
     <SafeAreaView>

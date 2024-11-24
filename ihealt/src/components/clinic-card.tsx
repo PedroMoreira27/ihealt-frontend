@@ -4,7 +4,7 @@ import styled from "styled-components/native";
 interface IAddress {
   address: string;
   number: string;
-  distric: string;
+  district: string;
   city: string;
   uf: string;
   code: string;
@@ -12,7 +12,7 @@ interface IAddress {
 
 interface IClinicProps {
   name: string;
-  address: IAddress[];
+  address: IAddress | IAddress[];
   phone: string;
 }
 
@@ -35,13 +35,15 @@ export const Text = styled.Text`
 `;
 
 export const ClinicCard = ({ name, address, phone }: IClinicProps) => {
+  const addresses = Array.isArray(address) ? address : [address];
+
   return (
     <Card>
       <Text style={{ fontWeight: "bold" }}>{name}</Text>
       <Text style={{ fontWeight: "bold" }}>{phone}</Text>
-      {address.map((service, index) => (
+      {addresses.map((service, index) => (
         <Text key={index}>
-          {service.address}, {service.number} - {service.distric}, {service.city}/{service.uf} - CEP: {service.code}
+          {service.address}, {service.number} - {service.district}, {service.city}/{service.uf} - CEP: {service.code}
         </Text>
       ))}
     </Card>
