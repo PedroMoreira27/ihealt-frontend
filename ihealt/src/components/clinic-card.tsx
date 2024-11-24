@@ -6,12 +6,16 @@ interface IClinicProps {
 }
 
 export const Card = styled.View`
-  width: 200px;
-  height: 88px;
+  width: 100%;
+  height: 126px;
   background-color: ${colors.surface};
   border-width: 1px;
   border-color: ${colors.outline} ;
   border-radius: 12px;
+`;
+
+export const CardHeader = styled.View`
+  
 `;
 
 export const Text = styled.Text`
