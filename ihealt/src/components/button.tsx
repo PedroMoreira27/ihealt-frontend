@@ -1,10 +1,35 @@
 import styled from "styled-components/native";
 import { colors } from "../styles/colors";
-export const Button = styled.TouchableOpacity
-	`
+import type { GestureResponderEvent } from "react-native";
+
+export const ButtonContainer = styled.TouchableOpacity`
   background-color: ${colors.primary};
-  width: 100%;
+  min-width: 100%;
   color: ${colors.colorOnPrimary};
-  padding: 8px;
+  padding: 12px;
   border-radius: 999px;
+  justify-content: center;
+  align-items: center;
 `;
+
+const Text = styled.Text`
+  color: ${colors.colorOnPrimary};
+
+  text-align: center;
+`;
+
+interface IButtonProps {
+	// biome-ignore lint/suspicious/noConfusingVoidType: <explanation>
+	onPress?: (event: GestureResponderEvent) => void | undefined;
+}
+
+export const Button = ({
+	children,
+	props,
+}: { children: React.ReactNode; props?: IButtonProps }) => {
+	return (
+		<ButtonContainer onPress={props?.onPress}>
+			<Text>{children}</Text>
+		</ButtonContainer>
+	);
+};

@@ -1,72 +1,92 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, Button, StyleSheet, Alert } from "react-native";
+import { Alert } from "react-native";
 import api from "../Api";
+import styled from "styled-components/native";
+import { colors } from "@/styles/colors";
+import { Button } from "@/components/button";
+
+const Container = styled.SafeAreaView`
+  background-color: ${colors.surface};
+  padding: 16px 24px;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+`;
+
+const Heading = styled.Text`
+  font-size: 28px;
+  font-weight: 700;
+  text-align: center;
+
+`;
+
+const Description = styled.Text`
+  margin: 8px 0px;
+  color: ${colors.mutedForeground};
+  text-align: center;
+`;
+
+const TextInput = styled.TextInput`
+  border-width: 1px;
+  border-color: ${colors.outline};
+  border-radius: 12px;
+`;
+
+const FormContainer = styled.View`
+  gap: 12px
+`;
 
 export default function RegisterUser() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    password: "",
-    phone: "",
-    type: "patient",
-  });
+	const [formData, setFormData] = useState({
+		name: "",
+		email: "",
+		password: "",
+		phone: "",
+		type: "patient",
+	});
 
-  const handleRegister = () => {
-    api.post("/users", formData)
-      .then(() => Alert.alert("Success", "User registered"))
-      .catch(() => Alert.alert("Error", "Failed to register user"));
-  };
+	const handleRegister = () => {
+		api
+			.post("/users", formData)
+			.then(() => Alert.alert("Success", "User registered"))
+			.catch(() => Alert.alert("Error", "Failed to register user"));
+	};
 
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Register</Text>
-      <TextInput placeholder="Name" style={styles.input} onChangeText={(text) => setFormData({ ...formData, name: text })} />
-      <TextInput placeholder="Email" style={styles.input} keyboardType="email-address" onChangeText={(text) => setFormData({ ...formData, email: text })} />
-      <TextInput placeholder="Password" style={styles.input} secureTextEntry onChangeText={(text) => setFormData({ ...formData, password: text })} />
-      <TextInput placeholder="Phone" style={styles.input} keyboardType="phone-pad" onChangeText={(text) => setFormData({ ...formData, phone: text })} />
-      <Button title="Register" onPress={handleRegister} />
-    </View>
-  );
+	return (
+		<Container>
+			<Heading>Comece a utilizar nossos serviços!</Heading>
+			<Description>
+				Crie uma conta pra começar a usar nossos serviços, ou entre em uma
+				existente!
+			</Description>
+			<FormContainer>
+				<TextInput
+					placeholder="Name"
+					onChangeText={(text) => setFormData({ ...formData, name: text })}
+				/>
+				<TextInput
+					placeholder="Email"
+					keyboardType="email-address"
+					onChangeText={(text) => setFormData({ ...formData, email: text })}
+				/>
+				<TextInput
+					placeholder="Password"
+					secureTextEntry
+					onChangeText={(text) => setFormData({ ...formData, password: text })}
+				/>
+				<TextInput
+					placeholder="Phone"
+					keyboardType="phone-pad"
+					onChangeText={(text) => setFormData({ ...formData, phone: text })}
+				/>
+				<Button
+					props={{
+						onPress: handleRegister,
+					}}
+				>
+					Cadastrar-se
+				</Button>
+			</FormContainer>
+		</Container>
+	);
 }
-
-const styles = StyleSheet.create({
-container: { flex: 1, padding: 20, display: "flex", justifyContent: "center", margin: "25%", marginTop: "20%" },
-textContainer: { display: "flex", justifyContent: "center", alignItems: "center", marginBottom: 20 },
-title: { fontSize: 25, fontWeight: "bold", marginBottom: 10 },
-subTitle: { fontSize: 20, fontWeight: "bold", marginBottom: 10 },
-paragraph: { fontSize: 14, marginBottom: 10 },
-input: { borderWidth: 1, borderColor: "#ccc", padding: 10, marginBottom: 10, borderRadius: 8 },
-radioContainer: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "center",
-    marginBottom: 20,
-    padding: 10,
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 5,
-},
-radioLabel: {
-    marginRight: 10,
-    fontSize: 16,
-    fontWeight: "bold",
-},
-radioButton: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginRight: 20,
-},
-radioText: {
-    fontSize: 16,
-    marginRight: 5,
-},
-radioGroup: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    flexDirection: "row",
-    gap: 30,
-},
-});
-  
-  
