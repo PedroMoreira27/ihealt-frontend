@@ -23,41 +23,70 @@ const Text = styled.Text`
 
 const CategoryWrapper = styled.View`
   margin: 12px 0px;
+	
 `;
 
 const Separator = styled.View`
-  width: 20px;
-  height: 20px;
+  width: 8px;
+  height: 24px;
   background-color: ${colors.surface};
 `;
 
 const ContainerSearch = styled.View`
-	height: 200px;
+	height: 100px;
 	width: 100%;
 	background-color: ${colors.surface};
+	align-items: center;
+	justify-content: center;
+	padding: 0px 16px;
 `;
 
 export default function Home() {
 	const clinicsData = [
 		{
 			id: 0,
-			name: "Test",
+			name: "Clinica 1",
+			services: [
+				{
+					name: "Exame médico geral",
+				},
+			],
 		},
 		{
 			id: 1,
-			name: "Test 2",
+			name: "Clinica 2",
+			services: [
+				{
+					name: "Exame médico geral",
+				},
+			],
 		},
 		{
 			id: 2,
-			name: "Testtttttttt",
+			name: "Clinica 3",
+			services: [
+				{
+					name: "Exame médico geral",
+				},
+			],
 		},
 		{
 			id: 3,
-			name: "Testttttttttsdahsdl",
+			name: "Clinica 4",
+			services: [
+				{
+					name: "Exame médico geral",
+				},
+			],
 		},
 		{
 			id: 4,
-			name: "asjwhdalksdalk",
+			name: "Clinica 5",
+			services: [
+				{
+					name: "Exame médico geral",
+				},
+			],
 		},
 	];
 
@@ -66,16 +95,18 @@ export default function Home() {
 			<Container>
 				<Text>Encontre os melhores serviços de saúde perto de você</Text>
 				<ContainerSearch>
-					<SearchInput />
+					<SearchInput placeholder="Procure serviços próximos..." />
 				</ContainerSearch>
-				<CategoryWrapper>
-					<FlatList
-						data={clinicsData}
-						renderItem={({ item }) => <ClinicCard name={item.name} />}
-						ItemSeparatorComponent={Separator}
-						horizontal
-					/>
-				</CategoryWrapper>
+				<SafeAreaView>
+					<CategoryWrapper>
+						<FlatList
+							data={clinicsData}
+							renderItem={({ item }) => <ClinicCard name={item.name} />}
+							ItemSeparatorComponent={Separator}
+							showsVerticalScrollIndicator={false}
+						/>
+					</CategoryWrapper>
+				</SafeAreaView>
 			</Container>
 			<StatusBar backgroundColor={colors.surface} />
 		</SafeAreaView>
