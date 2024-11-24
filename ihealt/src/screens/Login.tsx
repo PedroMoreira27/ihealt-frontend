@@ -1,7 +1,9 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, Button, StyleSheet, Alert } from "react-native";
+import { View, Text, TextInput, StyleSheet, Alert } from "react-native";
+import { Button } from "../components/button";
 import { RadioButton } from "react-native-paper";
 import api from "../Api";
+import { colors } from "../styles/colors";
 
 export default function LoginUser() {
   const [formData, setFormData] = useState({
@@ -66,7 +68,9 @@ export default function LoginUser() {
         onChangeText={(text) => setFormData({ ...formData, phone: text })}
       />
 
-      <Button title="Login" onPress={handleLogin} />
+      <Button onPress={handleLogin}>
+        <Text style={{ color: colors.colorOnPrimary }}>Login</Text>
+      </Button>
     </View>
   );
 }
