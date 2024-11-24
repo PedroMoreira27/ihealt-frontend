@@ -10,7 +10,6 @@ import PaymentList from "./screens/Payment";
 import Icon from "react-native-vector-icons/Ionicons";
 import Home from "./screens/Home/Home";
 import { colors } from "./styles/colors";
-import { SafeAreaView } from "react-native";
 
 const Tab = createBottomTabNavigator();
 
