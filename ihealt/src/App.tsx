@@ -17,28 +17,9 @@ export default function App() {
 	return (
 		<NavigationContainer>
 			<Tab.Navigator
-				screenOptions={({ route }) => ({
-					tabBarIcon: ({ color, size }) => {
-						let iconName = "";
-
-						if (route.name === "Specialties") {
-							iconName = "list" as string;
-						} else if (route.name === "Register") {
-							iconName = "person-add" as string;
-						} else if (route.name === "Login") {
-							iconName = "log-in" as string;
-						} else if (route.name === "Clinics") {
-							iconName = "medkit" as string;
-						} else if (route.name === "Consultations") {
-							iconName = "calendar" as string;
-						} else if (route.name === "Payments") {
-							iconName = "card" as string;
-						}
-
-						return <Icon name={iconName} size={size} color={color} />;
-					},
+				screenOptions={() => ({
 					tabBarActiveTintColor: colors.primary,
-					tabBarInactiveTintColor: "gray",
+					tabBarInactiveTintColor: colors.mutedForeground,
 				})}
 			>
 				<Tab.Screen
@@ -46,14 +27,33 @@ export default function App() {
 					component={Home}
 					options={{
 						headerShown: false,
+						tabBarIcon: ({ color, size }) => (
+							<Icon name="home" size={size} color={color} />
+						),
 					}}
 				/>
-				<Tab.Screen name="Specialties" component={SpecialtieList} />
-				<Tab.Screen name="Register" component={RegisterUser} />
-				<Tab.Screen name="Login" component={LoginUser} />
-				<Tab.Screen name="Clinics" component={ClinicList} />
-				<Tab.Screen name="Consultations" component={ConsultationList} />
-				<Tab.Screen name="Payments" component={PaymentList} />
+
+				<Tab.Screen
+					name="Clínicas"
+					component={ClinicList}
+					options={{
+						tabBarIcon: ({ color, size }) => (
+							<Icon name="list" size={size} color={color} />
+						),
+						headerShown: false,
+					}}
+				/>
+
+				<Tab.Screen
+					name="Perfil"
+					component={RegisterUser}
+					options={{
+						tabBarIcon: ({ color, size }) => (
+							<Icon name="person" size={size} color={color} />
+						),
+						headerShown: false,
+					}}
+				/>
 			</Tab.Navigator>
 		</NavigationContainer>
 	);

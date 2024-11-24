@@ -6,10 +6,10 @@ import { ClinicCard } from "@/components/clinic-card";
 import { SearchInput } from "@/components/search-input";
 
 const Container = styled.View`
-  padding: 24px 16px;
+  padding: 24px;
   display: flex;
   flex: 1;
-  background-color: "#00000000";
+  background-color: ${colors.surface};
 `;
 const SafeAreaView = styled.SafeAreaView`
   flex: 1;
